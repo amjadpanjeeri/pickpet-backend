@@ -1,8 +1,19 @@
-const functions = require('firebase-functions');
+const express=require('express');
+const basic_api=express();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+const bodyparser=require('body-parser');
+
+
+const port=3000;
+
+basic_api.use(bodyparser.urlencoded({extended:false}));
+
+basic_api.use(bodyparser.json());
+
+const users=require('./users/users');
+
+basic_api.use('/api',users)
+
+basic_api.listen(3000,()=>{
+    console.log("API is running at 3000");
+});

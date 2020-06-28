@@ -1,0 +1,20 @@
+{
+  "name": "pickpet-backend",
+  "version": "1.0.0",
+  "description": "Backend for a modile application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "firebase emulators:start --only functions"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amjadamju/pickpet-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amjadamju/pickpet-backend/issues"
+  },
+  "homepage": "https://github.com/amjadamju/pickpet-backend#readme"
+}
