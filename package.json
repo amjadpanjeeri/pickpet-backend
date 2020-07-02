@@ -1,20 +1,30 @@
 {
   "name": "pickpet-backend",
   "version": "1.0.0",
-  "description": "Backend for a modile application",
-  "main": "index.js",
+  "description": "backend for a mobile application",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "firebase emulators:start --only functions"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amjadamju/pickpet-backend.git"
   },
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "restapi"
+  ],
+  "author": "amjad",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/amjadamju/pickpet-backend/issues"
   },
-  "homepage": "https://github.com/amjadamju/pickpet-backend#readme"
+  "homepage": "https://github.com/amjadamju/pickpet-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
 }
