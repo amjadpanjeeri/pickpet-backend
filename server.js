@@ -17,6 +17,7 @@ app.get("/",(req,res)=>{
 });
 
 require("./app/routes/user.routes")(app);
+require("./app/routes/likes.routes")(app);
 
 app.listen(3000,()=>{
     console.log("server is running");

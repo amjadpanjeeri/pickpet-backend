@@ -8,7 +8,10 @@ module.exports=app => {
     //Sign in
     app.get("/users/:userId",users.findOne);
 
-    //edit account details
-    app.put("/users/:userId",users.update);
-    
+    //Delete a post
+    app.delete("/users/:userId",users.delete);
+
+    //update
+    app.put("/users/:userId", users.update);
+
 };

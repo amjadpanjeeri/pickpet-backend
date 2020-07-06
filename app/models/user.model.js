@@ -17,8 +17,8 @@ User.create = (newUser,result)=>{
             return;
         }
 
-        console.log("created customer: ", {id:res.id,...newUser});
-        result(null, { id: res.insertId, ...newCustomer });
+        console.log("created user: ", {id:res.id,...newUser});
+        result(null, { id: res.insertId, ...newUser });
     });
 };
 
@@ -28,7 +28,7 @@ User.create = (newUser,result)=>{
 const email="amjad@gmail.com";
 const password="123456";
 User.findById = (userId,result)=>{
-    sql.query(`SELECT * FROM users WHERE id=${userId}`,(err,res)=>{
+    sql.query(`SELECT * FROM users WHERE user_id=${userId}`,(err,res)=>{
         if(err){
             console.log("error: ",err);
             result(err,null);
@@ -52,28 +52,51 @@ User.findById = (userId,result)=>{
 
 
 
-//put method
-User.updateById = (id,user,result)=>{
+//delete
+User.remove = (id, result) => {
+    sql.query("DELETE FROM users WHERE id = ?", id, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+  
+      if (res.affectedRows == 0) {
+        // not found user with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+  
+      console.log("deleted user with id: ", id);
+      result(null, res);
+    });
+  };
+  
+
+
+
+//update
+User.updateById = (id, mail, result) => {
     sql.query(
-        "UPDATE users SET username=? WHERE id=?",
-        [user.email,id],
-        (err, res) => {
-            if (err) {
-              console.log("error: ", err);
-              result(null, err);
-              return;
-            }
-            if (res.affectedRows == 0) {
-                // not found Customer with the id
-                result({ kind: "not_found" }, null);
-                return;
-              }
-              console.log("updated customer: ", { id: id, ...user });
-              result(null, { id: id, ...user });
-            }
+      "UPDATE users SET email = ? WHERE user_id = ?",
+      [mail, id],
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+          return;
+        }
+  
+        if (res.affectedRows == 0) {
+          // not found user with the id
+          result({ kind: "not_found" }, null);
+          return;
+        }
+  
+        console.log("updated user: ", { id: id });
+        result(null, { id: id });
+      }
     );
-};
-
-
+  };
 
 module.exports=User;

@@ -10,7 +10,7 @@ exports.create = (req, res) => {
         });
     }
 
-    //create a user
+     //create a user
     const user = new User({
         username: "amjad",
         password: "123456",
@@ -54,34 +54,54 @@ exports.findOne = (req, res) => {
     });
 };
 
-
-
-//update
-exports.update = (req, res) => {
-    //validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Empty content"
-        });
-    }
-
-    User.updateById(
-        req.params.userId,
-        new User(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `not found with id=${req.params.userId}`
-                    });
-                }
-                else {
-                    res.status(500).send({
-                        message: "error during updation"
-                    });
-                }
+//deleting user
+exports.delete = (req,res) => {
+    User.remove(req.params.userId,(err, data) => {
+        if(err) {
+            if(err.kind === "not_found") {
+                res.status(400).send({
+                    message:`Not found with id = ${req.params.userId}`
+                });
             }
-            else res.send(data);
+            else{
+                res.status(500).send({
+                    message:"Couldn't delete user with user id "+ req.params.userId
+                });
+            }
         }
-    );
+        else
+            res.send({
+                message:"Deleted"
+            });
+    });
 };
+
+
+//updating user
+exports.update = (req, res) => {
+    // Validate Request
+    const mail="a@gmail.com";
+    if (!mail) {
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+    }
+  
+    User.updateById(
+      req.params.userId,
+      mail,
+      (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Not found user with id ${req.params.userId}.`
+            });
+          } else {
+            res.status(500).send({
+              message: "Error updating user with id " + req.params.userId
+            });
+          }
+        } else res.send(data);
+      }
+    );
+  };
