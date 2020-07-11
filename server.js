@@ -162,6 +162,8 @@ app.get('/home', redirectLogin, (req, res) => {
     global.user_id=req.session.userId;
     require("./app/posts/posts.routes")(app);
     require("./app/userprofile/profile.routes")(app);
+    require("./app/subscription/subscription.routes")(app);
+    require("./app/favourites/favourites.routes")(app);
 
 })
 
