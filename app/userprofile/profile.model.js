@@ -1,5 +1,5 @@
 const sql = require("../models/db");
-
+ 
 //constructor
 const Userprofile = function (userprofile) {
     this.user_id = userprofile.user_id;

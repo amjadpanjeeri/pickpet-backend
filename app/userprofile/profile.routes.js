@@ -8,6 +8,6 @@ module.exports = app => {
     app.get("/userprofile/:user_id", userprofile.findOne);
   
     // Update a Customer with customerId
-    // app.put("/userprofile/:user_id", userprofile.update);
+    app.patch("/userprofile/:user_id", userprofile.update);
   
   };
