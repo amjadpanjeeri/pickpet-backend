@@ -1,5 +1,5 @@
 const sql = require("../models/db");
- 
+
 //constructor
 const Userprofile = function (userprofile) {
     this.user_id = userprofile.user_id;
@@ -42,9 +42,34 @@ Userprofile.findById = (user_id, result) => {
             return;
         }
 
-        // not found Customer with the id
+        // not found userprofile with the id
         result({ kind: "not_found" }, null);
     });
+};
+
+
+//updating user profile
+Userprofile.updateById = (id, userprofile, result) => {
+    sql.query(
+        "UPDATE user_profile SET first_name = ? , last_name = ? , age = ? , sex = ? , user_type = ? , address = ? WHERE user_id = ?",
+        [userprofile.first_name, userprofile.last_name, userprofile.age, userprofile.sex, userprofile.user_type, userprofile.address,id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found userprofile with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated userprofile: ", { id: id, ...userprofile });
+            result(null, { id: id, ...userprofile });
+        }
+    );
 };
 
 module.exports = Userprofile;

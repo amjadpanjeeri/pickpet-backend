@@ -43,7 +43,7 @@ exports.create = (req, res) => {
 
 
   //removing from favourites
-  exports.delete = (req, res) => {
+  exports.Delete = (req, res) => {
     Favourite.remove(user_id,req.params.post_id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {

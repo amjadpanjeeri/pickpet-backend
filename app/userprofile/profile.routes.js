@@ -1,13 +1,9 @@
-module.exports = app => {
-    const userprofile = require("./profile.controller");
-  
-    // Create a new Customer
-    app.post("/userprofile", userprofile.create);
-  
-    // Retrieve a single Customer with customerId
-    app.get("/userprofile/:user_id", userprofile.findOne);
-  
-    // Update a Customer with customerId
-    app.patch("/userprofile/:user_id", userprofile.update);
-  
-  };
+const { create,findOne,editUser } = require('./profile.controller');
+const router = require('express').Router();
+const { checkToken } = require('../auth/token_validation');
+
+router.post('/',checkToken,create);
+router.get('/:user_id',checkToken,findOne);
+router.put('/:user_id',checkToken,editUser);
+
+module.exports = router;

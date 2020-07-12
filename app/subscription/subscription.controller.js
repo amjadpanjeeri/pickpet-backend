@@ -22,13 +22,16 @@ exports.create = (req, res) => {
                 message:
                     err.message || "Some error occurred while creating the Customer."
             });
-        else res.send(data);
+        else {
+            res.send(data);
+            const user_id = res[0].user_id;
+        }
     });
 };
 
 
 //for unfollow a user
-exports.delete = (req, res) => {
+exports.unfollow = (req, res) => {
     const follower_id=req.params.follower_id;
     Follower.remove(follower_id,user_id, (err, data) => {
         if (err) {

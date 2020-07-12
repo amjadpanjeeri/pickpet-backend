@@ -1,13 +1,11 @@
-module.exports = app => {
-    const follower = require("./subscription.controller");
-  
-    // Create a new Customer
-    app.post("/subscriber/:follower_id", follower.create);
-  
-    // Retrieve all subscriber
-    app.get("/subscriber", follower.findAll);
-  
-    // Delete a Customer with customerId
-    app.delete("/subscriber/:follower_id", follower.delete);
+const { request } = require("express");
 
-  };
+const { create,findAll,unfollow } = require('./subscription.controller');
+const router = require('express').Router();
+const { checkToken } = require('../auth/token_validation');
+
+router.post('/:follower_id',create);
+router.get('/',findAll);
+router.delete('/:follower_id',unfollow);
+
+module.exports = router;

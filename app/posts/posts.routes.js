@@ -1,18 +1,11 @@
+const { create,findAll,userPost,update,editPost } = require('./posts.controllers');
+const router = require('express').Router();
+const { checkToken } = require('../auth/token_validation');
 
-module.exports = app => {
-    const posts = require("./posts.controllers");
-    
-    //Create a new user
-    app.post("/posts", posts.create);
+router.post('/',checkToken,create);
+router.get('/:user_id',checkToken,userPost);
+router.get('/',findAll);
+router.put('/like/:post_id',update);
+router.put('/:post_id',editPost);
 
-    //getting all posts by a given user
-    app.get("/posts/:user_id", posts.findAll);
-
-    //getting posts of all users
-    app.get("/posts", posts.findAll);
-
-    //updating like count
-    app.put("/posts/:post_id", posts.update);
-
-
-};
+module.exports=router;

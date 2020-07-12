@@ -26,13 +26,32 @@ exports.create = (req, res) => {
             res.status(500).send({
                 message: err.message || "Some error occurred while authenticating the user."
             });
-        else res.send(data);
+
+            const result = bcrypt.compare(auth.password, data.password);
+            
+            if (result) {
+                result.password = undefined;
+                const jsontoken = sign({ result: result }, "qwe1234", {
+                    expiresIn: "1hr"
+                });
+                return res.json({
+                    success: 1,
+                    message: "logged in successfully",
+                    token: jsontoken
+                });
+            }
+            else {
+                return res.json({
+                    success: 0,
+                    message: "logged in failed"
+                });
+            }
     });
 
 };
 
 
-exports.create = (req, res) => {
+exports.login = (req, res) => {
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty!"

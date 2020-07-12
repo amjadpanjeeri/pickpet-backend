@@ -40,8 +40,8 @@ Post.getAll = (user_id, result) => {
                 result(null, err);
                 return;
             }
-                console.log(`post of user with user_id = ${user_id} \n`, res);
-                // result(null,res);
+            console.log(`post of user with user_id = ${user_id} \n`, res);
+            // result(null,res);
         });
 };
 
@@ -55,11 +55,35 @@ Post.getAll = (result) => {
                 result(null, err);
                 return;
             }
-                console.log(`all posts in the database\n`, res);
-                result(null,res);
+            console.log(`all posts in the database\n`, res);
+            result(null, res);
         });
 };
 
+
+//updating post
+Post.updateById = (post_id, post, result) => {
+    sql.query(
+        "UPDATE post_table SET post_name = ? , post_category = ? , post_description = ? , post_date = ? , place = ? , contact_number = ? , price = ? WHERE post_id = ?",
+        [post.post_name, post.post_category, post.post_description, post.post_date, post.place, post.contact_number, post.price],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+
+            if (res.affectedRows == 0) {
+                // not found post with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+
+            console.log("updated post: ", { result });
+            result(null, { id: post_id });
+        }
+    );
+};
 
 
 //updating like count
@@ -69,21 +93,23 @@ Post.updateById = (post_id, result) => {
         [post_id],
         (err, res) => {
             if (err) {
-                console.log("error: ", err); customer
+                console.log("error: ", err);
                 result(null, err);
                 return;
             }
 
             if (res.affectedRows == 0) {
-                // not found Customer with the id
+                // not found post with the id
                 result({ kind: "not_found" }, null);
                 return;
             }
 
-            console.log("updated like: ", { result });
-            result(null, { id: post_id });
+            console.log("updated post: ", { id: post_id });
+            result({ result }, null)
         }
     );
+
+
 };
 
 

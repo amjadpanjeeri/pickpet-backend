@@ -1,13 +1,9 @@
-module.exports = app => {
-    const favourite = require("./favourites.controller");
-  
-    // Create a new Customer
-    app.post("/favourite", favourite.create);
-  
-    // Retrieve all favourite
-    app.get("/favourite", favourite.findAll);
-  
-    // Delete a Customer with customerId
-    app.delete("/favourite/:post_id", favourite.delete);
-  
-  };
+const { create,findAll,Delete} = require('./favourites.controller');
+const router = require('express').Router();
+const { checkToken } = require('../auth/token_validation');
+
+router.post('/',checkToken,create);
+router.get('/',checkToken,findAll);
+router.delete('/:post_id',checkToken,Delete);
+
+module.exports = router;

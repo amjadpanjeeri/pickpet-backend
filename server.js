@@ -14,9 +14,25 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to pickpet application." });
 });
 
+//login and register
 const auth = require('./app/user/user.routes');
 app.use('/auth',auth);
 
+//userprofile API
+const userprofile = require('./app/userprofile/profile.routes');
+app.use('/userprofile',userprofile);
+
+//posts
+const post = require('./app/posts/posts.routes');
+app.use('/posts',post);
+
+//subscription
+const subscription = require('./app/subscription/subscription.routes');
+app.use('/subscription',subscription);
+
+//favourites
+const favourites = require('./app/favourites/favourites.routes');
+app.use('/favourites',favourites);
 
 // set port, listen for requests
 app.listen(3000, () => {

@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 
 
 //getting all posts of a given user
-exports.findAll = (req, res) => {
+exports.userPost = (req, res) => {
   console.log(req.params.user_id);
   
   if (!req.params.post_id) {
@@ -75,6 +75,36 @@ exports.findAll = (req, res) => {
       }
     } else res.send(data);
   });
+};
+
+
+//updating a post
+exports.editPost = (req, res) => {
+  // Validate Request
+
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  Post.updateById(
+    req.params.post_id,
+    req.body,
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found post with id ${req.params.post_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating post with id " + req.params.post_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
 };
 
 

@@ -12,13 +12,13 @@ exports.create = (req, res) => {
 
   // Create a Customer
   const userprofile = new Userprofile({
-    user_id: user_id,
-    first_name: "Amjad",
-    last_name: "N",
-    age: 20,
-    sex: "M",
-    user_type: "individual",
-    address: "parambil house"
+    user_id:req.body.user_id,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    age: req.body.age,
+    sex: req.body.sex,
+    user_type: req.body.user_type,
+    address: req.body.address
   });
 
   // Save Customer in the database
@@ -52,3 +52,29 @@ exports.findOne = (req, res) => {
 
 
 //updating user profile
+exports.editUser = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  Userprofile.updateById(
+    req.params.user_id,
+    new Userprofile(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with id ${req.params.user_id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating user with id " + req.params.user_id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
