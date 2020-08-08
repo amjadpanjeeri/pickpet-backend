@@ -1,1 +1,1 @@
-web:node server.js
+web:node pickpet-backend/server.js

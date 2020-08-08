@@ -35,6 +35,7 @@ const favourites = require('./app/favourites/favourites.routes');
 app.use('/favourites',favourites);
 
 // set port, listen for requests
-app.listen(3000, () => {
+let port= process.env.PORT || 3000;
+app.listen(port, () => {
   console.log("Server is running on port 3000.");
 });
