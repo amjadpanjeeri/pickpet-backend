@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+// const http = require('http');
 
 const app = express();
 
@@ -39,3 +40,7 @@ let PORT= process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server is running on port 3000.");
 });
+// http.createServer(function(req,res) {
+//   res.writeHead(200,{'Content-Type': 'text/plain'});
+//   res.end('Working');
+// }).listen(PORT, "127.0.0.1");

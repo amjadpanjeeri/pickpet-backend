@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 
     // Create a follower
     const follower = new Follower({
-        user_id: user_id,
+        user_id: 4,
         follower_id: req.params.follower_id 
     });
 
@@ -24,7 +24,7 @@ exports.create = (req, res) => {
             });
         else {
             res.send(data);
-            const user_id = res[0].user_id;
+            // const user_id = res[0].user_id;
         }
     });
 };
@@ -32,6 +32,7 @@ exports.create = (req, res) => {
 
 //for unfollow a user
 exports.unfollow = (req, res) => {
+    const user_id=4;
     const follower_id=req.params.follower_id;
     Follower.remove(follower_id,user_id, (err, data) => {
         if (err) {
@@ -51,7 +52,13 @@ exports.unfollow = (req, res) => {
 
 //for listing all followers of a user
 exports.findAll = (req, res) => {
-    Follower.getAll((err, data) => {
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+
+    Follower.getAll(req.params.user_id,(err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -60,3 +67,48 @@ exports.findAll = (req, res) => {
         else res.send(data);
     });
 };
+
+
+//getting count of followers of a user
+exports.followers = (req, res) => {
+    if (!req.params.user_id) {
+      res.status(400).send({
+        message: "Content can not be empty!",
+      });
+    }
+    Follower.getFollowersCount(req.params.user_id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with id ${req.params.user_id}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error while retreiving followers count of user " + req.params.user_id,
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+  //getting count of following of a user
+exports.following = (req, res) => {
+    if (!req.params.user_id) {
+      res.status(400).send({
+        message: "Content can not be empty!",
+      });
+    }
+    Follower.getFollowingCount(req.params.user_id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with id ${req.params.user_id}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error while retreiving followers count of user " + req.params.user_id,
+          });
+        }
+      } else res.send(data);
+    });
+  };

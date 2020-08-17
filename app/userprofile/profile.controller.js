@@ -12,7 +12,7 @@ exports.create = (req, res) => {
 
   // Create a Customer
   const userprofile = new Userprofile({
-    user_id:req.body.user_id,
+    user_id: req.body.user_id,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     age: req.body.age,
@@ -77,4 +77,39 @@ exports.editUser = (req, res) => {
       } else res.send(data);
     }
   );
+};
+
+
+
+//getting all posts of all users
+exports.findAll = (req, res) => {
+  Userprofile.getAllUsers((err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `table doesn't exist`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error while retreiving posts"
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.deleteAccount = (req, res) => {
+  Userprofile.deleteUser(req.params.user_id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found userprofile with id ${req.params.user_id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete userprofile with id " + req.params.user_id
+        });
+      }
+    } else res.send({ message: `userprofile was deleted successfully!` });
+  });
 };

@@ -1,9 +1,11 @@
-const { create,findOne,editUser } = require('./profile.controller');
+const { create,findOne,editUser ,findAll,deleteAccount} = require('./profile.controller');
 const router = require('express').Router();
 const { checkToken } = require('../auth/token_validation');
 
-router.post('/',checkToken,create);
+router.post('/',create);
 router.get('/:user_id',findOne);
-router.put('/:user_id',checkToken,editUser);
+router.get('/',findAll);
+router.put('/:user_id',editUser);
+router.delete("/:user_id", deleteAccount);
 
 module.exports = router;

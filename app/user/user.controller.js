@@ -72,7 +72,7 @@ exports.login = (req, res) => {
             }
         }
             const result = bcrypt.compare(password, data.password);
-            
+            console.log(result);
             if (result) {
                 result.password = undefined;
                 const jsontoken = sign({ result: result }, "qwe1234", {
@@ -93,4 +93,6 @@ exports.login = (req, res) => {
         
     })
 }
+
+
 

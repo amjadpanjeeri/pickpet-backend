@@ -2,8 +2,8 @@ const { create,findAll,Delete} = require('./favourites.controller');
 const router = require('express').Router();
 const { checkToken } = require('../auth/token_validation');
 
-router.post('/',checkToken,create);
-router.get('/',checkToken,findAll);
-router.delete('/:post_id',checkToken,Delete);
+router.post('/:post_id',create);
+router.get('/:user_id',findAll);
+router.delete('/:post_id',Delete);
 
 module.exports = router;

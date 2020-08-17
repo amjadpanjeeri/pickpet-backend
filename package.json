@@ -4,7 +4,6 @@
   "description": "backend for a mobile application",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,7 +14,8 @@
     "nodejs",
     "express",
     "mysql",
-    "restapi"
+    "restapi",
+    "heroku"
   ],
   "author": "amjad",
   "license": "ISC",

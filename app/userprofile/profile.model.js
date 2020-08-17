@@ -2,7 +2,6 @@ const sql = require("../models/db");
 
 //constructor
 const Userprofile = function (userprofile) {
-    this.user_id = userprofile.user_id;
     this.first_name = userprofile.first_name;
     this.last_name = userprofile.last_name;
     this.age = userprofile.age;
@@ -29,7 +28,8 @@ Userprofile.create = (newUserprofile, result) => {
 
 //display profile
 Userprofile.findById = (user_id, result) => {
-    sql.query(`SELECT * FROM user_profile WHERE user_id = ${user_id}`, (err, res) => {
+    sql.query("SELECT * FROM user_profile WHERE user_id = ?",
+        [user_id], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -71,6 +71,44 @@ Userprofile.updateById = (id, userprofile, result) => {
         }
     );
 };
+
+
+//retrieving all posts of all usersS
+Userprofile.getAllUsers = (result) => {
+    sql.query("SELECT * FROM user_profile",
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            console.log(`all users in the database\n`, res);
+            result(null, res);
+        });
+};
+
+
+Userprofile.deleteUser = (user_id, result) => {
+    sql.query("DELETE FROM user_profile WHERE user_id = ?", user_id, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+  
+      if (res.affectedRows == 0) {
+        // not found user with the user_id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+  
+      console.log("deleted user with user_id: ", user_id);
+      result(null, res);
+    });
+  };
+  
+
+
 
 module.exports = Userprofile;
 
