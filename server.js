@@ -80,6 +80,7 @@ const auth = require('./app/user/user.routes');
 app.use('/auth',auth);
 
 //userprofile API
+<<<<<<< HEAD
 const userprofile = require("./app/userprofile/profile.routes");
 app.use("/userprofile", userprofile);
 
@@ -97,6 +98,25 @@ app.use("/favourites", favourites);
 
 // set port, listen for requests
 let PORT = process.env.PORT || 3000;
+=======
+const userprofile = require('./app/userprofile/profile.routes');
+app.use('/userprofile',userprofile);
+
+//posts
+const post = require('./app/posts/posts.routes');
+app.use('/posts',post);
+
+//subscription
+const subscription = require('./app/subscription/subscription.routes');
+app.use('/subscription',subscription);
+
+//favourites
+const favourites = require('./app/favourites/favourites.routes');
+app.use('/favourites',favourites);
+
+// set port, listen for requests
+let PORT= process.env.PORT || 3000;
+>>>>>>> 317c40a988fc56e0e9b425ae68b09717f18720ef
 app.listen(PORT, () => {
   console.log("Server is running on port 3000.");
 });
