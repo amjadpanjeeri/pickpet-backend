@@ -78,6 +78,7 @@ exports.login = (req, res) => {
                 const jsontoken = sign({ result: result }, "qwe1234", {
                     expiresIn: "1hr"
                 });
+                console.log(jsontoken);
                 return res.json({
                     success: 1,
                     message: "logged in successfully",
