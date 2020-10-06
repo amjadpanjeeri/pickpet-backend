@@ -8,7 +8,7 @@ const Follower = function (follower) {
 
 //for following  a user
 Follower.create = (newFollower, result) => {
-  sql.query("INSERT INTO followers SET ?", newFollower, (err, res) => {
+  sql.query("INSERT INTO followers_table SET ?", newFollower, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -26,7 +26,7 @@ Follower.create = (newFollower, result) => {
 //for unfollowing a user
 Follower.remove = (follower_id, user_id, result) => {
   sql.query(
-    "DELETE FROM followers WHERE user_id = ? and follower_id = ?",
+    "DELETE FROM followers_table WHERE user_id = ? and follower_id = ?",
     [user_id, follower_id],
     (err, res) => {
       if (err) {
@@ -46,10 +46,10 @@ Follower.remove = (follower_id, user_id, result) => {
   );
 };
 
-//for listing all followers of a user
+//for listing all followers_table of a user
 Follower.getAll = (user_id, result) => {
   sql.query(
-    "SELECT * FROM followers where user_id = ? ",
+    "SELECT * FROM followers_table where user_id = ? ",
     [user_id],
     (err, res) => {
       if (err) {
@@ -65,10 +65,10 @@ Follower.getAll = (user_id, result) => {
 };
 
 
-//followers count
+//followers_table count
 Follower.getFollowersCount = (user_id, result) => {
   sql.query(
-    "SELECT COUNT(*) as followers_count FROM followers WHERE user_id = ?",
+    "SELECT COUNT(*) as followers_count FROM followers_table WHERE user_id = ?",
     [user_id],
     (err, res) => {
       if (err) {
@@ -87,7 +87,7 @@ Follower.getFollowersCount = (user_id, result) => {
 //followers count
 Follower.getFollowingCount = (user_id, result) => {
   sql.query(
-    "SELECT COUNT(*) as followers_count FROM followers WHERE follower_id = ?",
+    "SELECT COUNT(*) as followers_count FROM followers_tableWHERE follower_id = ?",
     [user_id],
     (err, res) => {
       if (err) {

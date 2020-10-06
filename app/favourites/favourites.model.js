@@ -24,7 +24,7 @@ Favourite.create = (newFavourite, result) => {
 //listing all favourites
 Favourite.getAll = (user_id, result) => {
   sql.query(
-    "SELECT * FROM favourites where user_id = ?",
+    "SELECT * from posts,favourites_table where favourites_table.post_id=posts.post_id and favourites_table.user_id = ? ",
     [user_id],
     (err, res) => {
       if (err) {

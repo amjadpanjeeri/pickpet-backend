@@ -22,6 +22,11 @@ exports.create = (req, res) => {
     age: req.body.age,
     contact_number: req.body.contact_number,
     price: req.body.price,
+    image1: req.body.image1,
+    image2: req.body.image2,
+    image3: req.body.image3,
+    image4: req.body.image4,
+    image5: req.body.image5,
     likes: req.body.likes,
   });
 
@@ -37,7 +42,6 @@ exports.create = (req, res) => {
 
 //getting all posts of a given user
 exports.userPost = (req, res) => {
-
   if (!req.params.user_id) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -60,7 +64,6 @@ exports.userPost = (req, res) => {
 
 //getting all posts of a given user
 exports.Categoryfilter = (req, res) => {
-
   if (!req.params.post_category) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -74,7 +77,9 @@ exports.Categoryfilter = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: "Error while retreiving post of category " + req.params.post_category,
+          message:
+            "Error while retreiving post of category " +
+            req.params.post_category,
         });
       }
     } else res.send(data);
@@ -195,20 +200,18 @@ exports.postCount = (req, res) => {
   });
 };
 
-
-
 exports.deletePost = (req, res) => {
   Post.remove(req.params.post_id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found post with id ${req.params.post_id}.`
+          message: `Not found post with id ${req.params.post_id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Customer with id " + req.params.post_id
+          message: "Could not delete Customer with id " + req.params.post_id,
         });
       }
-    } else res.send({ message: `Post was deleted successfully!` ,data});
+    } else res.send({ message: `Post was deleted successfully!`, data });
   });
 };

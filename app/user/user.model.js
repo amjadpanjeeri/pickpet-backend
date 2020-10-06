@@ -33,7 +33,8 @@ Auth.getbyEmail = (email, result) => {
 
     if (res.length) {
       console.log("found user: ", res[0].email);
-      result(null, res[0]);
+      console.log("found user: ", res[0].password);
+      result(null, res);
       return;
     }
 

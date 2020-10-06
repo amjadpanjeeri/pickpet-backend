@@ -13,7 +13,13 @@ const Post = function (post) {
   this.age = post.age;
   this.contact_number = post.contact_number;
   this.price = post.price;
+  this.image1=post.image1;
+  this.image2=post.image2;
+  this.image3=post.image3;
+  this.image4=post.image4;
+  this.image5=post.image5;
   this.likes = post.likes;
+  this.saved = post.saved;
 };
 
 //creating new post
@@ -24,7 +30,7 @@ Post.create = (newPost, result) => {
       result(err, null);
       return;
     }
-
+    
     console.log("created Post: ", { id: res.insertId, ...newPost });
     result(null, { id: res.insertId, ...newPost });
   });
