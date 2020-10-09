@@ -3,6 +3,7 @@ const sql = require("../models/db");
 // constructor
 
 const Post = function (post) {
+  this.post_id=post.post_id;
   this.user_id = post.user_id;
   this.post_name = post.post_name;
   this.post_category = post.post_category;

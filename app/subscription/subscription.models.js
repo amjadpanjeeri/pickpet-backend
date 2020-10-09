@@ -26,7 +26,7 @@ Follower.create = (newFollower, result) => {
 //for unfollowing a user
 Follower.remove = (follower_id, user_id, result) => {
   sql.query(
-    "DELETE FROM followers_table WHERE user_id = ? and follower_id = ?",
+    "DELETE FROM followers_table WHERE user1_id = ? and user2_id = ?",
     [user_id, follower_id],
     (err, res) => {
       if (err) {
@@ -49,7 +49,7 @@ Follower.remove = (follower_id, user_id, result) => {
 //for listing all followers_table of a user
 Follower.getAll = (user_id, result) => {
   sql.query(
-    "SELECT * FROM followers_table where user_id = ? ",
+    "SELECT * FROM followers_table where user1_id = ? ",
     [user_id],
     (err, res) => {
       if (err) {
@@ -68,7 +68,7 @@ Follower.getAll = (user_id, result) => {
 //followers_table count
 Follower.getFollowersCount = (user_id, result) => {
   sql.query(
-    "SELECT COUNT(*) as followers_count FROM followers_table WHERE user_id = ?",
+    "SELECT COUNT(*) as followers_count FROM followers_table WHERE user1_id = ?",
     [user_id],
     (err, res) => {
       if (err) {
@@ -87,7 +87,7 @@ Follower.getFollowersCount = (user_id, result) => {
 //followers count
 Follower.getFollowingCount = (user_id, result) => {
   sql.query(
-    "SELECT COUNT(*) as followers_count FROM followers_tableWHERE follower_id = ?",
+    "SELECT COUNT(*) as followers_count FROM followers_table WHERE user2_id = ?",
     [user_id],
     (err, res) => {
       if (err) {

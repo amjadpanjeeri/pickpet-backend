@@ -38,6 +38,10 @@ app.use('/subscription',subscription);
 const favourites = require('./app/favourites/favourites.routes');
 app.use('/favourites',favourites);
 
+//liking posts
+const likes = require('./app/postLike/likes.routes');
+app.use('/likes',likes);
+
 // set port, listen for requests
 let PORT= process.env.PORT || 3000;
 app.listen(PORT, () => {
