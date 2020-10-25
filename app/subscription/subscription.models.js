@@ -2,8 +2,8 @@ const sql = require("../models/db");
 
 // constructor
 const Follower = function (follower) {
-  this.user_id = follower.user_id;
-  this.follower_id = follower.follower_id;
+  this.user1_id = follower.user_id;
+  this.user2_id = follower.follower_id;
 };
 
 //for following  a user
@@ -69,7 +69,7 @@ Follower.getAll = (user_id, result) => {
 Follower.getFollowersCount = (user_id, result) => {
   sql.query(
     "SELECT COUNT(*) as followers_count FROM followers_table WHERE user1_id = ?",
-    [user_id],
+    [user_id], 
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -101,6 +101,20 @@ Follower.getFollowingCount = (user_id, result) => {
       // result(null,res);
     }
   );
+};
+
+//a post liked or not
+Follower.checkfollowing = (user_id,follower_id, result) => {
+  sql.query("SELECT * FROM followers_table WHERE user1_id = ? and user2_id = ?", [user_id,follower_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log(`followed by = ${user_id} \n`, res);
+    result(null, res);
+    // return;
+  });
 };
 
 module.exports = Follower;

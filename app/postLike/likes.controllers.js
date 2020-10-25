@@ -1,10 +1,11 @@
-const Follower = require("./likes.model");
+const Like = require("./likes.model");
 
 //for following another user
-exports.create = (req, res) => {
+exports.likePost = (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
+            status:404,
             message: "Content can not be empty!"
         });
     }
@@ -12,7 +13,7 @@ exports.create = (req, res) => {
     //Liking a post
     const like = new Like({
         post_id: req.params.post_id ,
-        user_id: req.body.user_id
+        user_id: req.params.user_id
     });
 
     // Save Like in the database
@@ -33,8 +34,8 @@ exports.create = (req, res) => {
 //disliking
 exports.dislike = (req, res) => {
     const post_id=req.params.post_id;
-    const user_id=req.body.user_id;
-    Follower.remove(post_id,user_id, (err, data) => {
+    const user_id=req.params.user_id;
+    Like.remove(post_id,user_id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
@@ -58,7 +59,7 @@ exports.likedorNot = (req, res) => {
         message: "Content can not be empty!",
       });
     }
-    Post.checkLike(req.params.post_id,req.body.user_id, (err, data) => {
+    Like.checkLike(req.params.post_id,req.params.user_id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
@@ -67,6 +68,27 @@ exports.likedorNot = (req, res) => {
         } else {
           res.status(500).send({
             message: "Error while retreiving post of user " + req.params.post_id,
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+  exports.CountofLike = (req, res) => {
+    if (!req.params.post_id) {
+      res.status(400).send({
+        message: "Content can not be empty!",
+      });
+    }
+    Like.likeCount(req.params.post_id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found post with id ${req.params.post_id}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error while retreiving count of like of post with post_id " + req.params.post_id,
           });
         }
       } else res.send(data);

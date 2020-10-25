@@ -52,9 +52,8 @@ Post.getUserPost = (user_id, result) => {
 
 //retrieving all posts under a category
 Post.getCategoryPost = (post_category, result) => {
-  var category = "%".concat(post_category.concat("%"));
   sql.query(
-    "SELECT * FROM posts WHERE post_category like ?",
+    "SELECT * FROM posts WHERE post_category = ?",
     [category],
     (err, res) => {
       if (err) {

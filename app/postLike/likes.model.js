@@ -57,5 +57,22 @@ Like.checkLike = (post_id,user_id, result) => {
       }
       console.log(`post is liked by = ${user_id} \n`, res);
       result(null, res);
+      // return;
     });
   };
+
+  Like.likeCount = (post_id, result) => {
+    sql.query("SELECT COUNT(*) as count FROM liked_posts WHERE post_id = ?", [post_id], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      console.log(`Like count of ${post_id} is\n`, res);
+      result(null, res);
+      // return;
+    });
+  };
+
+
+  module.exports = Like;

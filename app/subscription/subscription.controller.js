@@ -1,7 +1,7 @@
 const Follower = require("./subscription.models");
 
 //for following another user
-exports.create = (req, res) => {
+exports.followaUser = (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 
     // Create a follower
     const follower = new Follower({
-        user_id: 4,
+        user_id: req.params.user_id,
         follower_id: req.params.follower_id 
     });
 
@@ -32,7 +32,7 @@ exports.create = (req, res) => {
 
 //for unfollow a user
 exports.unfollow = (req, res) => {
-    const user_id=4;
+    const user_id=req.params.user_id;
     const follower_id=req.params.follower_id;
     Follower.remove(follower_id,user_id, (err, data) => {
         if (err) {
@@ -53,7 +53,7 @@ exports.unfollow = (req, res) => {
 //for listing all followers of a user
 exports.findAll = (req, res) => {
     if (!req.body) {
-        res.status(400).send({
+        res.status(400).send({ 
             message: "Content can not be empty!"
         });
     }
@@ -107,6 +107,28 @@ exports.following = (req, res) => {
         } else {
           res.status(500).send({
             message: "Error while retreiving followers count of user " + req.params.user_id,
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+
+  exports.followingorNot = (req, res) => {
+    if (!req.params.user_id) {
+      res.status(400).send({
+        message: "Content can not be empty!",
+      });
+    }
+    Follower.checkfollowing(req.params.user_id,req.params.follower_id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with id ${req.params.user_id}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error while retreiving user " + req.params.user_id,
           });
         }
       } else res.send(data);

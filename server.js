@@ -1,8 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var crypto = require('crypto');
+var crypto = require("crypto");
 const db = require("./app/models/db");
-const KEY = "m yincredibl y(!!1!11!)<'SECRET>)Key'!";
 // const http = require('http');
 
 const app = express();
@@ -12,6 +11,8 @@ app.use(bodyParser.json());
 
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+//image upload
 
 // simple route
 app.get("/", (req, res) => {
@@ -19,31 +20,45 @@ app.get("/", (req, res) => {
 });
 
 //login and register
-const auth = require('./app/user/user.routes');
-app.use('/auth',auth);
+const auth = require("./app/user/user.routes");
+app.use("/auth", auth);
 
 //userprofile API
-const userprofile = require('./app/userprofile/profile.routes');
-app.use('/userprofile',userprofile);
+const userprofile = require("./app/userprofile/profile.routes");
+app.use("/userprofile", userprofile);
 
 //posts
-const post = require('./app/posts/posts.routes');
-app.use('/posts',post);
+const post = require("./app/posts/posts.routes");
+app.use("/posts", post);
 
 //subscription
-const subscription = require('./app/subscription/subscription.routes');
-app.use('/subscription',subscription);
+const subscription = require("./app/subscription/subscription.routes");
+app.use("/subscription", subscription);
 
 //favourites
-const favourites = require('./app/favourites/favourites.routes');
-app.use('/favourites',favourites);
+const favourites = require("./app/favourites/favourites.routes");
+app.use("/favourites", favourites);
 
 //liking posts
-const likes = require('./app/postLike/likes.routes');
-app.use('/likes',likes);
+const likes = require("./app/postLike/likes.routes");
+app.use("/likes", likes);
+
+//imageupload
+const routes = require("./app/upload/imageUpload"),
+  path = require("path"),
+  fileUpload = require("express-fileupload");
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use(fileUpload());
+
+const upload = require("./app/upload/routes.imageUpload");
+app.use("/upload", upload);
+
+//Middleware
+
 
 // set port, listen for requests
-let PORT= process.env.PORT || 3000;
+let PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server is running on port 3000.");
 });
