@@ -5,18 +5,18 @@
 const db = require("../models/db");
 exports.index = function (req, res) {
   message = "";
-  var id=req.body.user_name;
-  var type = req.body.user_type;
+  var id = req.body.id;
+  var type = req.body.type;
   var address = req.body.address;
-  var fname = req.body.first_name;
-  var lname = req.body.last_name;
-  var mob = req.body.mob_no;
+  var fname = req.body.fname;
+  var lname = req.body.lname;
+  var mob = req.body.mob;
 
   if (!req.files) return res.status(400).send("No files were uploaded.");
 
   var file = req.files.uploaded_image;
   var img_name = file.name;
-// ALTER TABLE liked_posts DROP CONSTRAINT posts_ibfk_1;
+  // ALTER TABLE liked_posts DROP CONSTRAINT posts_ibfk_1;
   if (
     file.mimetype == "image/jpeg" ||
     file.mimetype == "image/png" ||
@@ -46,25 +46,32 @@ exports.index = function (req, res) {
       var query = db.query(sql, function (err, result) {
         if (err) throw err;
         console.log(result);
-        res.send('success');
+        res.send({ success: 1 });
       });
     });
   } else {
     message =
       "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-    res.render("index.ejs", { message: message });
+    res.send({ message: message });
   }
 };
 
 exports.profile = function (req, res) {
   var message = "";
   var id = req.params.id;
-  var sql = "SELECT * FROM `users_image` WHERE `id`='" + id + "'";
-  db.query(sql, function (err, result) {
-    if (result.length <= 0) message = "Profile not found!";
-
-    res.render("profile.ejs", { data: result, message: message });
-  });
+  db.query(
+    "SELECT * FROM user_profile WHERE user_id = ?",
+    id,
+    (err, result) => {
+      if (err) {
+        message = "Profile not found!";
+        result(err, null);
+        return;
+      }
+      console.log(result);
+      res.send({ data : result,message: "message" });
+    }
+  );
 };
 
 exports.viewprofile = function (req, res) {

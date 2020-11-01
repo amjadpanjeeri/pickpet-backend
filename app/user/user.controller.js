@@ -1,6 +1,9 @@
 const Auth = require("./user.model");
 const bcrypt = require("bcrypt");
+var uniqid = require("uniqid");
+const config = require("../config/auth.config");
 const { sign } = require("jsonwebtoken");
+var jwt = require("jsonwebtoken");
 
 exports.create = (req, res) => {
   console.log(req.body);
@@ -9,7 +12,9 @@ exports.create = (req, res) => {
       message: "Content can not be empty!",
     });
   }
+  var user_id = uniqid();
   const auth = new Auth({
+    user_id: user_id,
     email: req.body.email,
     username: req.body.username,
     password: req.body.password,
@@ -29,12 +34,11 @@ exports.create = (req, res) => {
 
     if (result) {
       result.password = undefined;
-      const jsontoken = sign({ result: result }, "pickpet", {
-        expiresIn: "24h",
+      const jsontoken = sign({ id: user_id }, config.secret, {
+        expiresIn: 86400,
       });
-      console.log(data.id);
       return res.json({
-        user_id: data.id,
+        user_id: user_id,
         success: 1,
         message: "logged in successfully",
         token: jsontoken,
@@ -55,7 +59,7 @@ exports.login = (req, res) => {
     });
   }
   const email = req.body.email;
-  const password = req.body.password;
+  var password1 = req.body.password;
   Auth.getbyEmail(email, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
@@ -68,27 +72,32 @@ exports.login = (req, res) => {
         });
       }
     }
-    print(data[0].password);
-    print(password);
-
-    const result = bcrypt.compare(password, data[0].password);
-    if (result) {
-      result.password = undefined;
-      const jsontoken = sign({ result: result }, "pickpet", {
-        expiresIn: "24h",
-      });
-      console.log(data);
-      return res.json({
-        data: data,
-        success: 1,
-        message: "logged in successfully",
-        token: jsontoken,
-      });
-    } else {
-      return res.json({
-        success: 0,
-        message: "logged in failed",
-      });
-    }
+    bcrypt.compare(password1, data[0].password, function (err, result) {
+      if (err) {
+        return res.json({
+          success: 0,
+          message: "No user found",
+        });
+      }
+      if (result) {
+        var jsontoken = jwt.sign({ id: data[0].user_id }, config.secret, {
+          expiresIn: 86400 // 24 hours
+        });
+        // const jsontoken = sign({ result: result }, config.secret, { algorithm: 'RS256' }, {
+        //   expiresIn: "24h",
+        // });
+        return res.json({
+          data: result,
+          success: 1,
+          message: "logged in successfully",
+          token: jsontoken,
+        });
+      } else {
+        return res.json({
+          success: 0,
+          message: "logged in failed",
+        });
+      }
+    });
   });
 };

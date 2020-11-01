@@ -1,13 +1,12 @@
 const sql = require("../models/db");
 
-
 const Auth = function (auth) {
+  this.user_id = auth.user_id;
   this.email = auth.email;
   this.username = auth.username;
   this.password = auth.password;
   this.phone = auth.phone;
 };
-
 
 Auth.create = (newAuth, result) => {
   sql.query("INSERT INTO users SET ?", newAuth, (err, res) => {
@@ -17,11 +16,10 @@ Auth.create = (newAuth, result) => {
       return;
     }
 
-    console.log("created user's account: ", { id: res.insertId, ...newAuth });
-    result(null, { id: res.insertId, ...newAuth });
+    console.log("created user's account: ", { newAuth });
+    result(null, { newAuth });
   });
 };
-
 
 Auth.getbyEmail = (email, result) => {
   sql.query(`SELECT * FROM users WHERE email = ?`, email, (err, res) => {
@@ -32,8 +30,6 @@ Auth.getbyEmail = (email, result) => {
     }
 
     if (res.length) {
-      console.log("found user: ", res[0].email);
-      console.log("found user: ", res[0].password);
       result(null, res);
       return;
     }
@@ -42,6 +38,5 @@ Auth.getbyEmail = (email, result) => {
     result({ kind: "not_found" }, null);
   });
 };
-
 
 module.exports = Auth;

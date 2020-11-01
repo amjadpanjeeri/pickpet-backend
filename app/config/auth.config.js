@@ -1,3 +1,3 @@
 module.exports = {
-    secret: "pickpet-secret-key"
+    secret: "pickpet4u"
   };

@@ -3,7 +3,7 @@ const sql = require("../models/db");
 // constructor
 
 const Post = function (post) {
-  this.post_id=post.post_id;
+  this.post_id = post.post_id;
   this.user_id = post.user_id;
   this.post_name = post.post_name;
   this.post_category = post.post_category;
@@ -14,13 +14,10 @@ const Post = function (post) {
   this.age = post.age;
   this.contact_number = post.contact_number;
   this.price = post.price;
-  this.image1=post.image1;
-  this.image2=post.image2;
-  this.image3=post.image3;
-  this.image4=post.image4;
-  this.image5=post.image5;
-  this.likes = post.likes;
-  this.saved = post.saved;
+  this.image1 = post.image1;
+  this.image2 = post.image2;
+  this.image3 = post.image3;
+  this.image4 = post.image4;
 };
 
 //creating new post
@@ -31,7 +28,7 @@ Post.create = (newPost, result) => {
       result(err, null);
       return;
     }
-    
+
     console.log("created Post: ", { id: res.insertId, ...newPost });
     result(null, { id: res.insertId, ...newPost });
   });
@@ -53,8 +50,7 @@ Post.getUserPost = (user_id, result) => {
 //retrieving all posts under a category
 Post.getCategoryPost = (post_category, result) => {
   sql.query(
-    "SELECT * FROM posts WHERE post_category = ?",
-    [category],
+    `SELECT * FROM posts WHERE post_category = "${post_category}"`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

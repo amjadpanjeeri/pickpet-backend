@@ -1,5 +1,5 @@
 const sql = require("../models/db");
-const { use } = require("../user/user.routes");
+const { user } = require("../user/user.routes");
 
 // constructor
 const Favourite = function (favourite) {
@@ -9,9 +9,9 @@ const Favourite = function (favourite) {
 
 //adding new post to favourites
 Favourite.create = (newFavourite, result) => {
-  sql.query("INSERT INTO favourites SET ?", newFavourite, (err, res) => {
+  sql.query("INSERT INTO saved_post SET ?", newFavourite, (err, res) => {
     if (err) {
-      ~console.log("error: ", err);
+      console.log("error: ", err);
       result(err, null);
       return;
     }
@@ -24,7 +24,7 @@ Favourite.create = (newFavourite, result) => {
 //listing all favourites
 Favourite.getAll = (user_id, result) => {
   sql.query(
-    "SELECT * from posts,favourites_table where favourites_table.post_id=posts.post_id and favourites_table.user_id = ? ",
+    "SELECT * from saved_post where user_id = ?",
     [user_id],
     (err, res) => {
       if (err) {
@@ -42,7 +42,7 @@ Favourite.getAll = (user_id, result) => {
 //removing from favourites
 Favourite.remove = (user_id, post_id, result) => {
   sql.query(
-    "DELETE FROM favourites WHERE user_id = ? and post_id = ?",
+    "DELETE FROM saved_post WHERE user_id = ? and post_id = ?",
     [user_id, post_id],
     (err, res) => {
       if (err) {

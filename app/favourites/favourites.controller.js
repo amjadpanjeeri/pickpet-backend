@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 
   // Create a Customer
   const favourite = new Favourite({
-    user_id: 5,
+    user_id: req.params.user_id,
     post_id: req.params.post_id,
   });
 
@@ -45,8 +45,7 @@ exports.findAll = (req, res) => {
 
 //removing from favourites
 exports.Delete = (req, res) => {
-  const user_id = 3;
-  Favourite.remove(user_id, req.params.post_id, (err, data) => {
+  Favourite.remove(req.params.user_id, req.params.post_id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
