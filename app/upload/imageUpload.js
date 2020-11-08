@@ -69,11 +69,20 @@ exports.profile = function (req, res) {
         return;
       }
       console.log(result);
-      res.send({ data : result,message: "message" });
+      res.json({ result });
     }
   );
 };
 
 exports.viewprofile = function (req, res) {
-  res.send("hello world");
+  db.query("SELECT * FROM user_profile ", (err, result) => {
+    if (err) {
+      message = "Profile not found!";
+      result(err, null);
+      return;
+    }
+    console.log(result);
+    // result(null, result);
+    res.json({ data: result });
+  });
 };

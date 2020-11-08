@@ -27,7 +27,6 @@ exports.create = (req, res) => {
     image3: req.body.image3,
     image4: req.body.image4,
     image5: req.body.image5,
-    likes: req.body.likes,
   });
 
   // Save post in the database
@@ -201,7 +200,7 @@ exports.postCount = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-  Post.remove(req.params.post_id, (err, data) => {
+  Post.remove(req.params.post_id,req.params.user_id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

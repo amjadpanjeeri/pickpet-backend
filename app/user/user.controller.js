@@ -29,11 +29,7 @@ exports.create = (req, res) => {
         message:
           err.message || "Some error occurred while authenticating the user.",
       });
-
-    const result = bcrypt.compare(auth.password, data.password);
-
-    if (result) {
-      result.password = undefined;
+    else {
       const jsontoken = sign({ id: user_id }, config.secret, {
         expiresIn: 86400,
       });
@@ -42,11 +38,6 @@ exports.create = (req, res) => {
         success: 1,
         message: "logged in successfully",
         token: jsontoken,
-      });
-    } else {
-      return res.json({
-        success: 0,
-        message: "logged in failed",
       });
     }
   });
@@ -81,7 +72,7 @@ exports.login = (req, res) => {
       }
       if (result) {
         var jsontoken = jwt.sign({ id: data[0].user_id }, config.secret, {
-          expiresIn: 86400 // 24 hours
+          expiresIn: 86400, // 24 hours
         });
         // const jsontoken = sign({ result: result }, config.secret, { algorithm: 'RS256' }, {
         //   expiresIn: "24h",
