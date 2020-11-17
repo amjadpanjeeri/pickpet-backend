@@ -34,9 +34,9 @@ exports.create = (req, res) => {
         expiresIn: 86400,
       });
       return res.json({
-        user_id: user_id,
+        data: user_id,
         success: 1,
-        message: "logged in successfully",
+        message: "logged in successfully..",
         token: jsontoken,
       });
     }
@@ -72,13 +72,13 @@ exports.login = (req, res) => {
       }
       if (result) {
         var jsontoken = jwt.sign({ id: data[0].user_id }, config.secret, {
-          expiresIn: 86400, // 24 hours
+           expiresIn: "7d", // 24 hours
         });
         // const jsontoken = sign({ result: result }, config.secret, { algorithm: 'RS256' }, {
         //   expiresIn: "24h",
         // });
         return res.json({
-          data: result,
+          data: data[0].user_id,
           success: 1,
           message: "logged in successfully",
           token: jsontoken,

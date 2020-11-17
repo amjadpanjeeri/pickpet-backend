@@ -6,7 +6,7 @@ const {
   postCount,
   Categoryfilter,
 } = require("./posts.controllers");
-const remove_likes = require('./remove_likes');
+const remove_likes = require("./remove_likes");
 const router = require("express").Router();
 const { checkToken } = require("../auth/token_validation");
 

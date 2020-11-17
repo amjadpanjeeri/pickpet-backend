@@ -43,6 +43,10 @@ app.use("/favourites", favourites);
 const likes = require("./app/postLike/likes.routes");
 app.use("/likes", likes);
 
+//category listing
+const category = require("./app/categories/categories.routes");
+app.use("/category", category);
+
 //imageupload
 const routes = require("./app/upload/imageUpload"),
   path = require("path"),
@@ -55,7 +59,6 @@ const upload = require("./app/upload/routes.imageUpload");
 app.use("/upload", upload);
 
 //Middleware
-
 
 // set port, listen for requests
 let PORT = process.env.PORT || 3000;
