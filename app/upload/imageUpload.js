@@ -3,6 +3,7 @@
  */
 
 const db = require("../models/db");
+const fs = require("fs");
 exports.index = function (req, res) {
   message = "";
   var id = req.body.id;
@@ -60,7 +61,7 @@ exports.profile = function (req, res) {
   var message = "";
   var id = req.params.id;
   db.query(
-    "SELECT * FROM user_profile WHERE user_id = ?",
+    "SELECT profile_image FROM user_profile WHERE user_id = ?",
     id,
     (err, result) => {
       if (err) {
@@ -68,9 +69,16 @@ exports.profile = function (req, res) {
         result(err, null);
         return;
       }
-      console.log(result);
-      res.json({ result });
+      console.log(result[0].profile_image);
+      var file = result[0].profile_image;
+      console.log("uploads" + file);
+      var img = fs.readFileSync(__dirname + "/uploads" + file);
+      res.writeHead(200, { "Content-Type": "image/jpg" });
+      // res.json({ result });
+      // console.log(img);
+      res.end(img, "binary");
     }
+    // __dirname + "/uploads" + file.name
   );
 };
 
@@ -85,4 +93,22 @@ exports.viewprofile = function (req, res) {
     // result(null, result);
     res.json({ data: result });
   });
+};
+
+exports.viewFollowers = function (req, res) {
+  var user_id = req.params.user_id;
+  db.query(
+    "SELECT * FROM user_profile where user_profile.user_id =(SELECT user2_id from followers_table where user1_id= ? )",
+    [user_id],
+    (err, result) => {
+      if (err) {
+        message = "Profile not found!";
+        res.json({ success: 0, message: "no followers" });
+      } else {
+        console.log(result);
+        // result(null, result);
+        res.json({ data: result });
+      }
+    }
+  );
 };

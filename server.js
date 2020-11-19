@@ -58,6 +58,9 @@ app.use(fileUpload());
 const upload = require("./app/upload/routes.imageUpload");
 app.use("/upload", upload);
 
+const postUpload = require("./app/post/post.routes");
+app.use("/postUpload", postUpload);
+
 //Middleware
 
 // set port, listen for requests

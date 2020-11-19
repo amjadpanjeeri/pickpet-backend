@@ -65,6 +65,10 @@ Follower.getAll = (user_id, result) => {
 };
 
 
+//followers of a user
+
+
+
 //followers_table count
 Follower.getFollowersCount = (user_id, result) => {
   sql.query(
