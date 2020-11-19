@@ -1,4 +1,5 @@
 const db = require("../models/db");
+const fs = require("fs");
 exports.index = function (req, res) {
   message = "";
   var user_id = req.body.user_id;
@@ -23,8 +24,7 @@ exports.index = function (req, res) {
       imgArray.images[i].mimetype == "image/gif" ||
       imgArray.images[i].mimetype == "image/jpg"
     ) {
-      post_images[i] =
-        __dirname + "/uploads/" + Date.now() + imgArray.images[i].name;
+      post_images[i] = __dirname + "/uploads/" + imgArray.images[i].name;
       imgArray.images[i].mv(post_images[i], function (err) {
         if (err) return res.status(500).send(err);
       });
@@ -76,3 +76,96 @@ exports.index = function (req, res) {
     });
   }
 };
+
+exports.image1 = function (req, res) {
+  var post_id = req.params.post_id;
+  var user_id = req.params.user_id;
+  db.query(
+    "SELECT image1 FROM posts WHERE post_id = ? and user_id = ?",
+    [post_id, user_id],
+    (err, result) => {
+      if (err) {
+        message = "post not found!";
+        result(err, null);
+        return;
+      }
+      var file = result[0].image1;
+      var img = fs.readFileSync(__dirname + "/uploads/" + file);
+      res.writeHead(200, { "Content-Type": "image/jpg" });
+      // res.json({ result });
+      // console.log(img);
+      res.end(img, "binary");
+    }
+    // __dirname + "/uploads" + file.name
+  );
+};
+
+exports.image2 = function (req, res) {
+    var post_id = req.params.post_id;
+    var user_id = req.params.user_id;
+    db.query(
+      "SELECT image2 FROM posts WHERE post_id = ? and user_id = ?",
+      [post_id, user_id],
+      (err, result) => {
+        if (err) {
+          message = "post not found!";
+          result(err, null);
+          return;
+        }
+        var file = result[0].image2;
+        var img = fs.readFileSync(__dirname + "/uploads/" + file);
+        res.writeHead(200, { "Content-Type": "image/jpg" });
+        // res.json({ result });
+        // console.log(img);
+        res.end(img, "binary");
+      }
+      // __dirname + "/uploads" + file.name
+    );
+  };
+
+
+  exports.image3 = function (req, res) {
+    var post_id = req.params.post_id;
+    var user_id = req.params.user_id;
+    db.query(
+      "SELECT image3 FROM posts WHERE post_id = ? and user_id = ?",
+      [post_id, user_id],
+      (err, result) => {
+        if (err) {
+          message = "post not found!";
+          result(err, null);
+          return;
+        }
+        var file = result[0].image3;
+        var img = fs.readFileSync(__dirname + "/uploads/" + file);
+        res.writeHead(200, { "Content-Type": "image/jpg" });
+        // res.json({ result });
+        // console.log(img);
+        res.end(img, "binary");
+      }
+      // __dirname + "/uploads" + file.name
+    );
+  };
+
+  exports.image4 = function (req, res) {
+    var post_id = req.params.post_id;
+    var user_id = req.params.user_id;
+    db.query(
+      "SELECT image4 FROM posts WHERE post_id = ? and user_id = ?",
+      [post_id, user_id],
+      (err, result) => {
+        if (err) {
+          message = "post not found!";
+          result(err, null);
+          return;
+        }
+        var file = result[0].image4;
+        var img = fs.readFileSync(__dirname + "/uploads/" + file);
+        res.writeHead(200, { "Content-Type": "image/jpg" });
+        // res.json({ result });
+        // console.log(img);
+        res.end(img, "binary");
+      }
+      // __dirname + "/uploads" + file.name
+    );
+  };
