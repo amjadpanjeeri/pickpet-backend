@@ -10,7 +10,10 @@ exports.create = (req, res) => {
   }
 
   // Create a Customer
-  
+  const favourite = new Favourite({
+    post_id: req.params.post_id ,
+    user_id: req.params.user_id
+});
 
   // Save Customer in the database
   Favourite.create(favourite, (err, data) => {
