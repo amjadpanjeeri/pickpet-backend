@@ -12,22 +12,30 @@ exports.index = function (req, res) {
   var age = req.body.age;
   var contact_number = req.body.contact_number;
   var price = req.body.price;
-
   if (!req.files) return res.status(400).send("No files were uploaded.");
+  var file1 = req.files.uploaded_image1;
+  var file2 = req.files.uploaded_image2;
+  var file3 = req.files.uploaded_image3;
+  var file4 = req.files.uploaded_image4;
   var flag = 0;
-  var imgArray = req.files;
-  var post_images = new Array();
+  var post_images = new Array(file1, file2, file3, file4);
+  // res.send({ post_images });
   for (var i = 0; i < 4; i++) {
+    console.log(post_images[i].mimetype);
+
     if (
-      imgArray.images[i].mimetype == "image/jpeg" ||
-      imgArray.images[i].mimetype == "image/png" ||
-      imgArray.images[i].mimetype == "image/gif" ||
-      imgArray.images[i].mimetype == "image/jpg"
+      post_images[i].mimetype == "image/jpeg" ||
+      post_images[i].mimetype == "image/png" ||
+      post_images[i].mimetype == "image/gif" ||
+      post_images[i].mimetype == "image/jpg" ||
+      post_images[i].mimetype == "application/octet-stream"
     ) {
-      post_images[i] = __dirname + "/uploads/" + imgArray.images[i].name;
-      imgArray.images[i].mv(post_images[i], function (err) {
-        if (err) return res.status(500).send(err);
-      });
+      post_images[i].mv(
+        __dirname + "/uploads/" + post_images[i].name,
+        function (err) {
+          if (err) return res.status(500).send(err);
+        }
+      );
       flag = 1;
     } else {
       message =
@@ -58,15 +66,15 @@ exports.index = function (req, res) {
       "','" +
       price +
       "','" +
-      imgArray.images[0].name +
+      post_images[0].name +
       "','" +
-      imgArray.images[1].name +
+      post_images[1].name +
       "','" +
-      imgArray.images[2].name +
+      post_images[2].name +
       "','" +
-      imgArray.images[3].name +
+      post_images[3].name +
       "')";
-
+    console.log(sql);
     var query = db.query(sql, function (err, result) {
       if (err) {
         message = "Error while uploading post";

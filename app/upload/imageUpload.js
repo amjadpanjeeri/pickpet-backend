@@ -4,7 +4,7 @@
 
 const db = require("../models/db");
 const fs = require("fs");
-exports.index = function (req, res) {
+exports.editProfile = function (req, res) {
   message = "";
   var id = req.body.id;
   var type = req.body.type;
@@ -12,38 +12,51 @@ exports.index = function (req, res) {
   var fname = req.body.fname;
   var lname = req.body.lname;
   var mob = req.body.mob;
+  // if (!req.files) return res.status(400).send("No files were uploaded.");
 
-  if (!req.files) return res.status(400).send("No files were uploaded.");
-
-  var file = req.files.uploaded_image;
-  var img_name = file.name;
+  // var file = req.files.uploaded_image;
+  // var img_name = file.name;
   // ALTER TABLE liked_posts DROP CONSTRAINT posts_ibfk_1;
+  // if (
+  //   file.mimetype == "image/jpeg" ||
+  //   file.mimetype == "image/png" ||
+  //   file.mimetype == "image/gif" ||
+  //   file.mimetype == "image/jpg"
+  // ) {
+  // file.mv(__dirname + "/uploads" + file.name, function (err) {
+  // if (err) return res.status(500).send(err);
+
+  var sql = `UPDATE user_profile SET first_name="${fname}",last_name ="${lname}",mobile="${mob}",user_type="${type}",address="${address}" WHERE user_id="${id}"`;
+  var query = db.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.send({ success: 1 });
+  });
+  // });
+  // }
+  // else {
+  //   message =
+  //     "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+  //   res.send({ message: message });
+  // }
+};
+
+exports.editImage = function (req, res) {
+  if (!req.files) return res.status(400).send("No files were uploaded.");
+  var id = req.params.user_id;
+  var file = req.files.uploaded_image;
+    console.log(file.mimetype);
+    // var img_name = file.name;
   if (
     file.mimetype == "image/jpeg" ||
     file.mimetype == "image/png" ||
     file.mimetype == "image/gif" ||
-    file.mimetype == "image/jpg"
+    file.mimetype == "image/jpg" || file.mimetype == "application/octet-stream"
   ) {
     file.mv(__dirname + "/uploads" + file.name, function (err) {
       if (err) return res.status(500).send(err);
 
-      var sql =
-        "INSERT INTO user_profile VALUES ('" +
-        id +
-        "','" +
-        fname +
-        "','" +
-        lname +
-        "','" +
-        mob +
-        "','" +
-        type +
-        "','" +
-        address +
-        "','" +
-        img_name +
-        "')";
-
+      var sql = `UPDATE user_profile SET  profile_image ="${file.name}" WHERE user_id="${id}"`;
       var query = db.query(sql, function (err, result) {
         if (err) throw err;
         console.log(result);
@@ -53,6 +66,7 @@ exports.index = function (req, res) {
   } else {
     message =
       "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+      console.log(message);
     res.send({ message: message });
   }
 };
