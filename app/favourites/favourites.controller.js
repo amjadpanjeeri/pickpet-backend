@@ -43,6 +43,30 @@ exports.findAll = (req, res) => {
   });
 };
 
+
+//favourite or not
+exports.favouriteOrNot = (req, res) => {
+  if (!req.params.post_id) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+  Favourite.checkFavourite(req.params.post_id,req.params.user_id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found post favourited with id ${req.params.post_id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error while retreiving post of user " + req.params.post_id,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+
 //removing from favourites
 exports.Delete = (req, res) => {
   Favourite.remove(req.params.user_id, req.params.post_id, (err, data) => {

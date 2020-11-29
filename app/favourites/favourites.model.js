@@ -39,6 +39,21 @@ Favourite.getAll = (user_id, result) => {
   );
 };
 
+
+//a post favourited or not
+Favourite.checkFavourite = (post_id,user_id, result) => {
+  sql.query("SELECT * FROM saved_post WHERE post_id = ? and user_id = ?", [post_id,user_id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log(`post is favourited by = ${user_id} \n`, res);
+    result(null, res);
+    // return;
+  });
+};
+
 //removing from favourites
 Favourite.remove = (user_id, post_id, result) => {
   sql.query(
