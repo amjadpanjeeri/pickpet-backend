@@ -178,39 +178,47 @@ Post.getCount = (user_id, result) => {
   );
 };
 
-Post.remove = (post_id,user_id, result) => {
-  sql.query(`DELETE FROM liked_post WHERE post_id = ${post_id}`,(err, res) => {
+Post.remove = (post_id, user_id, result) => {
+  var flag = 0;
+  sql.query(`DELETE FROM post_likes WHERE post_id = ${post_id}`, (err, res) => {
     if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
+      flag = 1;
     }
 
     if (res.affectedRows == 0) {
       // not found post with the id
-      result({ kind: "not_found" }, null);
-      return;
+      flag = 1;
     }
 
     console.log("deleted post with id: ", post_id);
-    result(null, res);
   });
-  sql.query(`DELETE FROM posts WHERE post_id = ${post_id} and user_id = "${user_id}"`,(err, res) => {
+  sql.query(`DELETE FROM saved_post WHERE post_id = ${post_id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
-      return;
+      flag = 1;
     }
-
-    if (res.affectedRows == 0) {
-      // not found post with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
     console.log("deleted post with id: ", post_id);
-    result(null, res);
+    // result(null, res);
   });
+  sql.query(
+    `DELETE FROM posts WHERE post_id = ${post_id} and user_id = "${user_id}"`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found post with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("deleted post with id: ", post_id);
+      result(null, res);
+    }
+  );
 };
 
 module.exports = Post;

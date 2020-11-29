@@ -4,6 +4,7 @@
 
 const db = require("../models/db");
 const fs = require("fs");
+const { profile } = require("console");
 exports.editProfile = function (req, res) {
   message = "";
   var id = req.body.id;
@@ -41,17 +42,42 @@ exports.editProfile = function (req, res) {
   // }
 };
 
+exports.CompleteProfile = function (req, res) {
+  message = "";
+  var id = req.body.id;
+  var type = req.body.type;
+  var address = req.body.address;
+  var fname = req.body.fname;
+  var lname = req.body.lname;
+  var mob = req.body.mob;
+  var image = "";
+  var sql = `INSERT INTO user_profile(user_id,first_name,last_name,mobile,user_type,address,profile_image) VALUES ("${id}","${fname}","${lname}","${mob}","${type}","${address}","${image}") `;
+  var query = db.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.send({ success: 1 });
+  });
+  // });
+  // }
+  // else {
+  //   message =
+  //     "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+  //   res.send({ message: message });
+  // }
+};
+
 exports.editImage = function (req, res) {
   if (!req.files) return res.status(400).send("No files were uploaded.");
   var id = req.params.user_id;
   var file = req.files.uploaded_image;
-    console.log(file.mimetype);
-    // var img_name = file.name;
+  console.log(file.mimetype);
+  // var img_name = file.name;
   if (
     file.mimetype == "image/jpeg" ||
     file.mimetype == "image/png" ||
     file.mimetype == "image/gif" ||
-    file.mimetype == "image/jpg" || file.mimetype == "application/octet-stream"
+    file.mimetype == "image/jpg" ||
+    file.mimetype == "application/octet-stream"
   ) {
     file.mv(__dirname + "/uploads" + file.name, function (err) {
       if (err) return res.status(500).send(err);
@@ -66,7 +92,7 @@ exports.editImage = function (req, res) {
   } else {
     message =
       "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-      console.log(message);
+    console.log(message);
     res.send({ message: message });
   }
 };

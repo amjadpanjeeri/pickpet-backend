@@ -214,3 +214,4 @@ exports.deletePost = (req, res) => {
     } else res.send({ message: `Post was deleted successfully!`, data });
   });
 };
+

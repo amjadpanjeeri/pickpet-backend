@@ -40,7 +40,7 @@ exports.index = function (req, res) {
     } else {
       message =
         "This format is not allowed , please upload file with '.png','.gif','.jpg'";
-      res.send({ message: message });
+      res.status(404).json({ message: message });
     }
   }
   if (flag == 1) {
@@ -74,13 +74,12 @@ exports.index = function (req, res) {
       "','" +
       post_images[3].name +
       "')";
-    console.log(sql);
     var query = db.query(sql, function (err, result) {
       if (err) {
         message = "Error while uploading post";
-        res.send({ message: message, success: 0 });
+        res.status(404).json({ message: message });
       }
-      res.send({ success: 1 });
+      res.send({ success: 1,result:result });
     });
   }
 };

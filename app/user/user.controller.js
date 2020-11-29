@@ -31,7 +31,7 @@ exports.create = (req, res) => {
       });
     else {
       const jsontoken = sign({ id: user_id }, config.secret, {
-        expiresIn: 86400,
+        expiresIn: "7d",
       });
       return res.json({
         data: user_id,
