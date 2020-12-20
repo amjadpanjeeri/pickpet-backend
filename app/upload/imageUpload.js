@@ -161,7 +161,7 @@ exports.viewFollowers = function (req, res) {
       } else {
         console.log(result);
         // result(null, result);
-        res.json({ data: result });
+        res.json({ success: 0, data: result });
       }
     }
   );

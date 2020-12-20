@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to pickpet application." });
+    res.json({ message: "Welcome to pickpet application." });
 });
 
 //login and register
@@ -49,8 +49,8 @@ app.use("/category", category);
 
 //imageupload
 const routes = require("./app/upload/imageUpload"),
-  path = require("path"),
-  fileUpload = require("express-fileupload");
+    path = require("path"),
+    fileUpload = require("express-fileupload");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
@@ -66,7 +66,7 @@ app.use("/postUpload", postUpload);
 // set port, listen for requests
 let PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server is running on port 3000.");
+    console.log("Server is running on port 3000.");
 });
 // http.createServer(function(req,res) {
 //   res.writeHead(200,{'Content-Type': 'text/plain'});
