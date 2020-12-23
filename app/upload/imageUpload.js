@@ -166,3 +166,16 @@ exports.viewFollowers = function (req, res) {
     }
   );
 };
+
+exports.paymentId = function (req, res) {
+  message = "";
+  var payment_id = req.params.payment_id;
+  var user_id = req.params.user_id;
+  console.log(payment_id);
+  var sql = `UPDATE user_profile SET payment_id="${payment_id}" where user_id = "${user_id}"`;
+  var query = db.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.send({ success: 1 });
+  });
+};

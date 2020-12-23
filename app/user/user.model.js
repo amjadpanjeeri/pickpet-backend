@@ -39,9 +39,9 @@ Auth.getbyEmail = (email, result) => {
     });
 };
 
-Auth.gAuth = (user_id, email, username, result) => {
+Auth.gSignup = (user_id, email, username, result) => {
     sql.query(
-        "INSERT INTO googleAccounts VALUES ? , ? , ?", [user_id, email, username],
+        `INSERT INTO googleAccounts VALUES ( "${user_id}" , "${email}" , "${username}" ) `,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -49,8 +49,30 @@ Auth.gAuth = (user_id, email, username, result) => {
                 return;
             }
 
-            console.log("created user's account: ", { newAuth });
-            result(null, { newAuth });
+            console.log("created user's account: ", { email });
+            result(null, { email });
+        }
+    );
+};
+
+Auth.getGmail = (email, result) => {
+    sql.query(
+        `SELECT * FROM googleAccounts WHERE email = ?`,
+        email,
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+
+            if (res.length) {
+                result(null, res);
+                return;
+            }
+
+            // not found user with the email
+            result({ kind: "not_found" }, null);
         }
     );
 };

@@ -93,7 +93,7 @@ exports.login = (req, res) => {
 };
 
 //Google Authentication
-exports.googleAuth = (req, res) => {
+exports.googleSignUp = (req, res) => {
     console.log(req.body);
     if (!req.body) {
         res.status(400).send({
@@ -101,8 +101,10 @@ exports.googleAuth = (req, res) => {
         });
     }
     var user_id = uniqid();
+    var email = req.body.email;
+    var username = req.body.username;
 
-    Auth.gAuth(user_id, auth.email, auth.username, (err, data) => {
+    Auth.gSignup(user_id, email, username, (err, data) => {
         if (err)
             res.status(500).send({
                 message: err.message || "Some error occurred while authenticating the user.",
@@ -115,6 +117,39 @@ exports.googleAuth = (req, res) => {
                 data: user_id,
                 success: 1,
                 message: "logged in successfully..",
+                token: jsontoken,
+            });
+        }
+    });
+};
+
+//Sign in with google
+exports.googleSignIn = (req, res) => {
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!",
+        });
+    }
+    var email = req.body.email;
+    Auth.getGmail(email, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found user with email ${email}.`,
+                });
+            } else {
+                res.status(500).send({
+                    message: "invalid email or password ",
+                });
+            }
+        } else {
+            var jsontoken = jwt.sign({ id: data }, config.secret, {
+                expiresIn: "7d", // 24 hours
+            });
+            return res.json({
+                data: data[0].user_id,
+                success: 1,
+                message: "logged in successfully",
                 token: jsontoken,
             });
         }
