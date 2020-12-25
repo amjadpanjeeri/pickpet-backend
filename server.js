@@ -61,6 +61,9 @@ app.use("/upload", upload);
 const postUpload = require("./app/post/post.routes");
 app.use("/postUpload", postUpload);
 
+//premium users
+const premiumUsers = require("./app/premiumUsers/premiumusers.routes");
+app.use("/premiumUsers", premiumUsers);
 //Middleware
 
 // set port, listen for requests

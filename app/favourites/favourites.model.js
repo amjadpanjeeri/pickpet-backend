@@ -1,5 +1,4 @@
 const sql = require("../models/db");
-const { user } = require("../user/user.routes");
 
 // constructor
 const Favourite = function (favourite) {
