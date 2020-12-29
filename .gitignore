@@ -4,3 +4,5 @@ npm-debug.log
 /*.env
 /uploads
 /app/post/uploads
+/app/accessoryPosts/uploads
+/app/foodPosts/uploads
