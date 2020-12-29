@@ -9,8 +9,8 @@ exports.create = (req, res) => {
     });
   }
 
-  var start_date = Date.now;
-  var end_date = Date.now;
+  var start_date = new Date();
+  var end_date = new Date();
   // Create a user
   const premiumUser = new PremiumUser({
     user_id: req.params.user_id,
@@ -18,7 +18,7 @@ exports.create = (req, res) => {
     start_date: start_date,
     end_date: end_date,
     payment_id: req.body.payment_id,
-    is_expired: false,
+    is_expired: 'false',
   });
 
   // Save user in the database

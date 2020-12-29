@@ -14,7 +14,7 @@ router.post("/", checkToken, create);
 router.get("/:user_id", checkToken, userPost);
 router.get("/", checkToken, findAll);
 router.get("/filter/:post_category", checkToken, Categoryfilter);
-router.get("/count/:user_id", checkToken, postCount);
+router.get("/count/:user_id", postCount);
 router.delete("/:post_id/:user_id", checkToken, deletePost);
 
 module.exports = router;

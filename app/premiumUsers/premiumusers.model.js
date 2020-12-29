@@ -3,7 +3,7 @@ const sql = require("../models/db");
 // constructor
 const PremiumUser = function (premiumUser) {
   this.user_id = premiumUser.user_id;
-  this.premium_type = premiumUser.premium_type;
+  this.type_of_subscription = premiumUser.type_of_subscription;
   this.start_date = premiumUser.start_date;
   this.end_date = premiumUser.end_date;
   this.payment_id = premiumUser.payment_id;
@@ -52,7 +52,7 @@ PremiumUser.checkPremiumUser = (user_id, result) => {
 //listing all favourites
 PremiumUser.getAuser = (user_id, result) => {
   sql.query(
-    "SELECT * from premium_subsriptions user_id = ?",
+    "SELECT * from premium_subsriptions WHERE user_id = ?",
     [user_id],
     (err, res) => {
       if (err) {

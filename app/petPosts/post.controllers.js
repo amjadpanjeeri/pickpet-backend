@@ -18,6 +18,7 @@ exports.index = function (req, res) {
   var file3 = req.files.uploaded_image3;
   var file4 = req.files.uploaded_image4;
   var flag = 0;
+  var is_featured = 0;
   var post_images = new Array(file1, file2, file3, file4);
   // res.send({ post_images });
   for (var i = 0; i < 4; i++) {
@@ -45,7 +46,7 @@ exports.index = function (req, res) {
   }
   if (flag == 1) {
     var sql =
-      "INSERT INTO posts (user_id,post_name,post_category,post_description,post_date,address,sex,age,contact_number,price,image1,image2,image3,image4) VALUES ('" +
+      "INSERT INTO pets (user_id,post_name,post_category,post_description,post_date,sex,age,contact_number,price,image1,image2,image3,image4,is_featured) VALUES ('" +
       user_id +
       "','" +
       post_name +
@@ -55,8 +56,6 @@ exports.index = function (req, res) {
       post_description +
       "','" +
       post_date +
-      "','" +
-      address +
       "','" +
       sex +
       "','" +
@@ -73,13 +72,15 @@ exports.index = function (req, res) {
       post_images[2].name +
       "','" +
       post_images[3].name +
+      "','" +
+      is_featured +
       "')";
     var query = db.query(sql, function (err, result) {
       if (err) {
         message = "Error while uploading post";
-        res.status(404).json({ message: message });
+        res.status(404).json({ message: err });
       }
-      res.send({ success: 1,result:result });
+      res.send({ success: 1, result: result });
     });
   }
 };
@@ -114,4 +115,24 @@ exports.image4 = function (req, res) {
   var img = fs.readFileSync(__dirname + "/uploads/" + file);
   res.writeHead(200, { "Content-Type": "image/jpg" });
   res.end(img, "binary");
+};
+
+//to make featured food of a user
+
+exports.makeFeatured = function (req, res) {
+  var product_id = req.params.product_id;
+  db.query(
+    `UPDATE pets SET is_featured = 1 where post_id = "${product_id}"`,
+    (err, result) => {
+      if (err) {
+        message = "Accessory not found!";
+        // result(err, null);
+        res.json({ error: err });
+        return;
+      }
+      console.log(result);
+      //   result(null, result);
+      res.json({ data: result });
+    }
+  );
 };

@@ -58,8 +58,16 @@ app.use(fileUpload());
 const upload = require("./app/upload/routes.imageUpload");
 app.use("/upload", upload);
 
-const postUpload = require("./app/post/post.routes");
+const postUpload = require("./app/petPosts/post.routes");
 app.use("/postUpload", postUpload);
+
+//pet accessories
+const accessories = require("./app/accessoryPosts/accessories.routes");
+app.use("/petAccessories", accessories);
+
+//pet foods
+const food = require("./app/foodPosts/petfood.routes");
+app.use("/petFood", food);
 
 //premium users
 const premiumUsers = require("./app/premiumUsers/premiumusers.routes");

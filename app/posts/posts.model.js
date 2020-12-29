@@ -22,7 +22,7 @@ const Post = function (post) {
 
 //creating new post
 Post.create = (newPost, result) => {
-  sql.query("INSERT INTO posts SET ?", newPost, (err, res) => {
+  sql.query("INSERT INTO pets SET ?", newPost, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -34,9 +34,9 @@ Post.create = (newPost, result) => {
   });
 };
 
-//retrieving all posts of a given user
+//retrieving all pets of a given user
 Post.getUserPost = (user_id, result) => {
-  sql.query("SELECT * FROM posts WHERE user_id = ?", [user_id], (err, res) => {
+  sql.query("SELECT * FROM pets WHERE user_id = ?", [user_id], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -47,10 +47,10 @@ Post.getUserPost = (user_id, result) => {
   });
 };
 
-//retrieving all posts under a category
+//retrieving all pets under a category
 Post.getCategoryPost = (post_category, result) => {
   sql.query(
-    `SELECT * FROM posts WHERE post_category = "${post_category}"`,
+    `SELECT * FROM pets WHERE post_category = "${post_category}"`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -63,15 +63,15 @@ Post.getCategoryPost = (post_category, result) => {
   );
 };
 
-//retrieving all posts of all users
+//retrieving all pets of all users
 Post.getAll = (result) => {
-  sql.query("SELECT * FROM posts", (err, res) => {
+  sql.query("SELECT * FROM pets", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
-    console.log(`all posts in the database\n`, res);
+    console.log(`all pets in the database\n`, res);
     result(null, res);
   });
 };
@@ -79,7 +79,7 @@ Post.getAll = (result) => {
 //updating post
 Post.updateById = (post_id, post, result) => {
   sql.query(
-    "UPDATE posts SET post_name = ? , post_category = ? , post_description = ? , post_date = ? , address = ? ,sex = ? , age = ? , contact_number = ? , price = ? WHERE post_id = ?",
+    "UPDATE pets SET post_name = ? , post_category = ? , post_description = ? , post_date = ? , address = ? ,sex = ? , age = ? , contact_number = ? , price = ? WHERE post_id = ?",
     [
       post.post_name,
       post.post_category,
@@ -114,7 +114,7 @@ Post.updateById = (post_id, post, result) => {
 //updating like count
 Post.updateLike = (post_id, result) => {
   sql.query(
-    "UPDATE posts SET likes = likes+1 WHERE post_id = ?",
+    "UPDATE pets SET likes = likes+1 WHERE post_id = ?",
     [post_id],
     (err, res) => {
       if (err) {
@@ -138,7 +138,7 @@ Post.updateLike = (post_id, result) => {
 //dislike
 Post.updateDisLike = (post_id, result) => {
   sql.query(
-    "UPDATE posts SET likes = likes-1 WHERE post_id = ?",
+    "UPDATE pets SET likes = likes-1 WHERE post_id = ?",
     [post_id],
     (err, res) => {
       if (err) {
@@ -159,10 +159,10 @@ Post.updateDisLike = (post_id, result) => {
   );
 };
 
-//retrieving count of all posts of a given user
+//retrieving count of all pets of a given user
 Post.getCount = (user_id, result) => {
   sql.query(
-    "SELECT COUNT(*) as post_count FROM posts WHERE user_id = ?",
+    "SELECT COUNT(*) as post_count FROM pets union pet_accessories union pet_foods WHERE user_id = ?",
     [user_id],
     (err, res) => {
       if (err) {
@@ -170,7 +170,7 @@ Post.getCount = (user_id, result) => {
         result(null, err);
         return;
       }
-      console.log(`No.of posts of user with user_id = ${res[0].post_count} \n`);
+      console.log(`No.of pets of user with user_id = ${res[0].post_count} \n`);
       result(null, res[0]);
       return;
       // result(null,res);
@@ -201,7 +201,7 @@ Post.remove = (post_id, user_id, result) => {
     // result(null, res);
   });
   sql.query(
-    `DELETE FROM posts WHERE post_id = ${post_id} and user_id = "${user_id}"`,
+    `DELETE FROM pets WHERE post_id = ${post_id} and user_id = "${user_id}"`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
