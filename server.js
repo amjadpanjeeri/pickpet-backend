@@ -43,6 +43,12 @@ app.use("/favourites", favourites);
 const likes = require("./app/postLike/likes.routes");
 app.use("/likes", likes);
 
+
+//liking accessories posts
+const Accessorylikes = require("./app/petAccessoriesLikes/accessory_likes.routes");
+app.use("/Accessorylikes", Accessorylikes);
+
+
 //category listing
 const category = require("./app/categories/categories.routes");
 app.use("/category", category);
