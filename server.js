@@ -39,6 +39,11 @@ app.use("/subscription", subscription);
 const favourites = require("./app/favourites/favourites.routes");
 app.use("/favourites", favourites);
 
+//pet foods favourites
+const petFoodFavourites = require("./app/PetFoodfavourites/petFoodFav.routes");
+app.use("/petFoodFavourites", petFoodFavourites);
+
+
 //liking posts
 const likes = require("./app/postLike/likes.routes");
 app.use("/likes", likes);
