@@ -49,6 +49,11 @@ const Accessorylikes = require("./app/petAccessoriesLikes/accessory_likes.routes
 app.use("/Accessorylikes", Accessorylikes);
 
 
+//liking food posts
+const Foodlikes = require("./app/petFoodLikes/foodLikes.routes");
+app.use("/PetFoodlikes", Foodlikes);
+
+
 //category listing
 const category = require("./app/categories/categories.routes");
 app.use("/category", category);
