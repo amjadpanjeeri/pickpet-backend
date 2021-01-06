@@ -43,6 +43,10 @@ app.use("/favourites", favourites);
 const petFoodFavourites = require("./app/PetFoodfavourites/petFoodFav.routes");
 app.use("/petFoodFavourites", petFoodFavourites);
 
+//pet foods favourites
+const petAccessoriesFavourites = require("./app/petAccessoryFavourites/petAccessoriesFav.routes");
+app.use("/petAccessoriesFavourites", petAccessoriesFavourites);
+
 
 //liking posts
 const likes = require("./app/postLike/likes.routes");
