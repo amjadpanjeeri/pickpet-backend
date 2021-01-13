@@ -17,7 +17,7 @@ module.exports = {
           message: "Unauthorized!",
         });
       }
-      console.log(decoded);
+      // console.log(decoded);
       next();
     });
   },

@@ -70,7 +70,6 @@ exports.editImage = function (req, res) {
   if (!req.files) return res.status(400).send("No files were uploaded.");
   var id = req.params.user_id;
   var file = req.files.uploaded_image;
-  console.log(file.mimetype);
   // var img_name = file.name;
   if (
     file.mimetype == "image/jpeg" ||

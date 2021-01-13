@@ -162,7 +162,7 @@ Post.updateDisLike = (post_id, result) => {
 //retrieving count of all pets of a given user
 Post.getCount = (user_id, result) => {
   sql.query(
-    "SELECT COUNT(*) as post_count FROM pets union pet_accessories union pet_foods WHERE user_id = ?",
+    "SELECT COUNT(*) as post_count FROM pets WHERE user_id = ?",
     [user_id],
     (err, res) => {
       if (err) {

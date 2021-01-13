@@ -15,7 +15,7 @@ exports.index = function (req, res) {
   var file2 = req.files.uploaded_image2;
   var file3 = req.files.uploaded_image3;
   var file4 = req.files.uploaded_image4;
-  var is_featured = 0;
+  var is_featured = req.body.is_Featured;
   var flag = 0;
   var post_images = new Array(file1, file2, file3, file4);
   // res.send({ post_images });
@@ -41,7 +41,7 @@ exports.index = function (req, res) {
     }
   }
   if (flag == 1) {
-    var sql = `INSERT INTO pet_foods (user_id,product_name,product_brand,product_weight,product_description,date,contact_number,product_price,product_image1,product_image2,product_image3,product_image4,is_featured) VALUES ('${user_id}','${post_name}','${brand}','${weight}','${description}','${date}','${contact_number}', ${price},'${post_images[0].name}','${post_images[1].name}','${post_images[2].name}','${post_images[3].name}', ${is_featured});`;
+    var sql = `INSERT INTO pet_foods (user_id,product_name,product_brand,product_weight,product_description,date,contact_number,product_price,product_image1,product_image2,product_image3,product_image4,is_featured) VALUES ("${user_id}","${post_name}","${brand}","${weight}","${description}","${date}","${contact_number}", ${price},"${post_images[0].name}","${post_images[1].name}","${post_images[2].name}","${post_images[3].name}", "${is_featured}");`;
     //    var sql = " INSERT INTO `pet_accessories` ( `user_id`, `product_name`, `product_brand`, `product_weight`, `product_description`, `date`, `contact_number`, `product_price`, `product_image1`, `product_image2`, `product_image3`, `product_image4`, `is_featured`) VALUES ( '5dnd3pkgymocn2', 'Dog Bowl', 'AmazonBasics', '27 x 27 ', 'Set of 2 stainless-steel food bowls for puppies, dogs, cats, or kittens.Holds up to 0.9 Kg. perfect for dry kibble, wet food, treats, or water,perfect for dry kibble, wet food, treats, or water,Rust resistant,offers a healthy alternative to plastic,doesnt hold odors,No-tip design', '21-12-2020', '98745613210', '599', 'images.jpeg', 'images1.jpeg', 'images2.jpeg', 'images3.jpeg', '0');";
     var query = db.query(sql, function (err, result) {
       if (err) {

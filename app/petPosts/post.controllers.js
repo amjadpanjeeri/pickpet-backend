@@ -7,7 +7,6 @@ exports.index = function (req, res) {
   var post_category = req.body.post_category;
   var post_description = req.body.post_description;
   var post_date = req.body.post_date;
-  var address = req.body.address;
   var sex = req.body.sex;
   var age = req.body.age;
   var contact_number = req.body.contact_number;
@@ -18,7 +17,7 @@ exports.index = function (req, res) {
   var file3 = req.files.uploaded_image3;
   var file4 = req.files.uploaded_image4;
   var flag = 0;
-  var is_featured = 0;
+  var is_featured = req.body.is_Featured;
   var post_images = new Array(file1, file2, file3, file4);
   // res.send({ post_images });
   for (var i = 0; i < 4; i++) {

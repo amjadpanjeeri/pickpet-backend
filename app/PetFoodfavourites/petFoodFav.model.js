@@ -23,7 +23,7 @@ Favourite.create = (newFavourite, result) => {
 //listing all favourites
 Favourite.getAll = (user_id, result) => {
   sql.query(
-    "SELECT * from pets,saved_pet_foods where pets.post_id = saved_pet_foods.post_id and saved_pet_foods.user_id = ?",
+    "SELECT * from pet_foods,saved_pet_foods where pet_foods.product_id = saved_pet_foods.post_id and saved_pet_foods.user_id = ?",
     [user_id],
     (err, res) => {
       if (err) {
